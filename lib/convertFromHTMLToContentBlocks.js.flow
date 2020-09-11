@@ -635,7 +635,7 @@ class ContentBlocksBuilder {
     this.currentEntity = null;
   }
 
-  __addCenteredNode(node: Node, style: DraftInlineStyle) {
+  _addCenteredNode(node: Node, style: DraftInlineStyle) {
     const entityConfig = {};
     const text = node.innerText;
     this.currentEntity = this.entityMap.__create('centered', 'MUTABLE', entityConfig || {});

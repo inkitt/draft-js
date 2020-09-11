@@ -580,8 +580,8 @@ class ContentBlocksBuilder {
     begin = entity !== undefined ? Math.min(begin, entity[0]) : begin;
 
     entity = this.characterList
-    .reverse()
-    .findEntry(characterMetadata => characterMetadata.getEntity() !== null);
+      .reverse()
+      .findEntry(characterMetadata => characterMetadata.getEntity() !== null);
     end = entity !== undefined ? Math.max(end, l - entity[0]) : end;
 
     if (begin > end) {
@@ -655,7 +655,7 @@ class ContentBlocksBuilder {
     this.currentEntity = null;
   }
 
-  __addCenteredNode(node: Node, style: DraftInlineStyle) {
+  _addCenteredNode(node: Node, style: DraftInlineStyle) {
     const entityConfig = {};
     const text = node.innerText;
 
@@ -820,11 +820,11 @@ const convertFromHTMLToContentBlocks = (
 
   // Remove funky characters from the HTML string
   html = html
-  .trim()
-  .replace(REGEX_CR, '')
-  .replace(REGEX_NBSP, SPACE)
-  .replace(REGEX_CARRIAGE, '')
-  .replace(REGEX_ZWS, '');
+    .trim()
+    .replace(REGEX_CR, '')
+    .replace(REGEX_NBSP, SPACE)
+    .replace(REGEX_CARRIAGE, '')
+    .replace(REGEX_ZWS, '');
 
   // Build a DOM tree out of the HTML string
   const safeBody = DOMBuilder(html);
@@ -845,8 +845,8 @@ const convertFromHTMLToContentBlocks = (
   };
 
   return new ContentBlocksBuilder(blockTypeMap, disambiguate)
-  .addDOMNode(safeBody)
-  .getContentBlocks();
+    .addDOMNode(safeBody)
+    .getContentBlocks();
 };
 
 module.exports = convertFromHTMLToContentBlocks;
