@@ -196,6 +196,20 @@ const isValidImage = (node: Node): boolean => {
   );
 };
 
+const isValidCentered = (node: Node): boolean => {
+  if (!node) {
+    return false;
+  }
+
+  if (typeof node.getAttribute !== 'function') {
+    return false;
+  }
+
+  const styles = node.getAttribute('style') || '';
+
+  return styles.indexOf('text-align: center;') !== -1;
+};
+
 /**
  * Try to guess the inline style of an HTML element based on its css
  * styles (font-weight, font-style and text-decoration).
@@ -446,6 +460,12 @@ class ContentBlocksBuilder {
       }
 
       let blockType = this.blockTypeMap.get(nodeName);
+
+      if (isValidCentered(node)) {
+        this._addCenteredNode(node, style);
+        continue;
+      }
+
       if (blockType !== undefined) {
         // 'block' type node means we need to create a block config
         // with the text accumulated so far (if any)
@@ -632,6 +652,19 @@ class ContentBlocksBuilder {
     // we strip those out)
     this._appendText('\ud83d\udcf7', style);
 
+    this.currentEntity = null;
+  }
+
+  _addCenteredNode(node: Node, style: DraftInlineStyle) {
+    const entityConfig = {};
+    const text = node.innerText;
+
+    this.currentEntity = this.entityMap.__create(
+      'centered',
+      'MUTABLE',
+      entityConfig || {},
+    );
+    this._appendText(text, style);
     this.currentEntity = null;
   }
 
